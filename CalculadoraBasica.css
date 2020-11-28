@@ -1,0 +1,41 @@
+/*0001*/
+body{
+    color:black;
+    background-color:white;
+    line-height: 15px;
+}
+
+/*0001*/
+h1{
+    text-align:center;
+    color:rgb(190, 52, 52);
+    background-color:white;
+}
+
+/*0001*/
+div{
+    display: grid;
+    grid-template-columns: 2em 2em 2em 2em;
+    column-gap: 1.5em;
+    row-gap: 1em;
+    margin: 0.7em;
+}
+
+/*100*/
+#label{
+    position: absolute;
+    visibility: hidden;
+    margin: 1em;
+}
+
+/*0100*/
+#resultado{
+    margin: 1em;
+    margin-left: 1.6em;
+    width: 15em;
+}
+
+/*0011*/
+input[type="submit"]{
+    width: 3em;
+}
