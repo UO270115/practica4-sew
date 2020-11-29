@@ -1,0 +1,52 @@
+/*0001*/
+body{
+    color:black;
+    background-color:white;
+    line-height: 15px;
+}
+
+/*0001*/
+h1{
+    text-align:center;
+    color:rgb(190, 52, 52);
+    background-color:white;
+}
+
+/*0001*/
+div{
+    display: grid;
+    grid-template-columns: 5em 5em 5em 5em 5em;
+    margin: 0.7em;
+    column-gap: 1em;
+}
+
+/*0100*/
+#stack{
+    width: 29em;
+    height: 5em;
+    text-align: end;
+    color:black;
+    background-color: rgb(203, 239, 248);
+    overflow-y: scroll;
+    display: block;
+    margin-bottom: 1em;
+    margin-left: 1.3em;
+}
+
+/*0100*/
+#label{
+    position: absolute;
+    visibility: hidden;
+    margin: 1em;
+}
+
+/*0100*/
+#resultado{
+    margin-left: 1.6em;
+    width: 34em;
+    height: 2em;
+    text-align: end;
+    color:black;
+    background-color: rgb(203, 239, 248);
+    margin-bottom: 1em;
+}
