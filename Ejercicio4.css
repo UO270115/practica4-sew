@@ -1,0 +1,22 @@
+/*0001*/
+body {
+    line-height: 1.8;
+    color: #818181;
+    background-color: white;
+}
+
+/*0001*/
+h1 {
+    font: 400 40px 'Brush Script MT, Brush Script Std', cursive;
+    color:rgb(126, 126, 255);
+    background-color: white;
+    text-transform: uppercase;
+    padding: 50px 25px;
+    text-align: center;
+}
+
+/*0001*/
+h2{
+    color:rgb(119, 205, 255);
+    background-color: white;
+}
