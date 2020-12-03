@@ -7,16 +7,16 @@
 </head>
 <body>
     <h1>Calculadora básica</h1>  
-    <section>
+    <div>
         <?php
             include_once("CalculadoraBasicaCodigo.php");
             $calculadoraBasica = new CalculadoraBasica();
             $calculadoraBasica->init();
         ?>
-    </section>  
+    </div>  
 
-    <section>
-        <form action="" method="post">
+    <div>
+        <form action="#" method="post">
             <label id="label" for="resultado">Calculadora básica</label>
             <input type="text" id="resultado" name="resultado" value="<?php echo $calculadoraBasica->mostrar();?>" readOnly />
             <div>
@@ -42,7 +42,7 @@
                 <div><input type="submit" class='button' name='botonIgual' value="=" /></div>
             </div>
         </form>
-    </section>    
+    </div>    
 
     <footer>
         <a href="http://validator.w3.org/check/referer" hreflang="en-us">

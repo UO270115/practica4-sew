@@ -7,16 +7,16 @@
 </head>
 <body>
     <h1>Calculadora RPN</h1>
-    <section>
+    <div>
         <?php
             include_once("CalculadoraRPNCodigo.php");
             $calculadoraRPN = new CalculadoraRPN();
             $calculadoraRPN->init();
         ?>
-    </section>  
+    </div>  
 
-    <section>
-        <form action="" method="post">
+    <div>
+        <form action="#" method="post">
             <div id="stack"><?php echo $calculadoraRPN->mostrarPila();?></div>
             <label id="label" for="resultado">Calculadora RPN</label>
             <input type="text" id="resultado" name="resultado" value="<?php echo $calculadoraRPN->mostrar();?>" readOnly />
@@ -64,7 +64,7 @@
                 <div><input type="submit" class="button" name="botonEnter" value="Enter" /></div>
             </div>
         </form>
-    </section>    
+    </div>    
 
     <footer>
         <a href="http://validator.w3.org/check/referer" hreflang="en-us">

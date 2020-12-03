@@ -6,19 +6,19 @@
 	<link rel="stylesheet" href="Ejercicio4.css"/>
 </head>
 <body>
-<h1>DigitalCOVIDNews</h1>
-    <section>
+    <h1>DigitalCOVIDNews</h1>
+    <div>
         <?php
             include_once("Ejercicio4Codigo.php");
             $news = new News();
         ?>
-    </section>
+    </div>
 
-    <section>
-        <form action="" method="post">
+    <div>
+        <form action="#" method="post">
             <div id="noticias"><?php echo $news->mostrar();?></div>
         </form> 
-    </section>
+    </div>
 
     <a href="https://validator.w3.org/check?uri=referer">
         <img src="HTML5.png" alt=" HTML5 Válido!" /></a>

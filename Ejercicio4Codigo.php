@@ -20,7 +20,7 @@
                 $noticia .= "<h2>" . $articles[$i]["title"] . "</h2>";
                 $noticia .= "<p>" . $articles[$i]["description"] . "</p>";
                 $noticia .= "<p>" . $articles[$i]["content"] . "</p>";
-                $noticia .= "<img src='" . $articles[$i]["image"] . "' alt='Foto representativa de la noticia' height='500' width='100%'/>";
+                $noticia .= "<img src='" . $articles[$i]["image"] . "' alt='Foto representativa de la noticia' />";
                 $noticia .= "<p>Fuente de información: " . $articles[$i]["source"]["name"] . "</p>";
                 $noticia .= "<p>Fecha de la punlicación: " . $articles[$i]["publishedAt"] . "</p>";
                 $noticia .= "<a href='" . $articles[$i]["url"] . "'>Ver la noticia completa</a>";

@@ -20,3 +20,9 @@ h2{
     color:rgb(119, 205, 255);
     background-color: white;
 }
+
+/*0001*/
+img{
+    height: 500px;
+    width: 100%;
+}
