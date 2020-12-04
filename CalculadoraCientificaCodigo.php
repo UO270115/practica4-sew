@@ -544,7 +544,7 @@
             if(isset($_SESSION["p"])){
                 if($_SESSION["p"] > -1){
                     if(isset($_SESSION["resultado"]) & isset($_SESSION["mostrar"])){
-                        $_SESSION["resultado"] .= "sinh(((" . $_SESSION["p"] . " * pi()) / 180))";
+                        $_SESSION["resultado"] .= "asin(((" . $_SESSION["p"] . " * pi()) / 180))";
                         $_SESSION["mostrar"] .= "asin(" . $_SESSION['p'] . ")";
                     }
                 }else{
@@ -586,7 +586,7 @@
             if(isset($_SESSION["p"])){
                 if($_SESSION["p"] > -1){
                     if(isset($_SESSION["resultado"]) & isset($_SESSION["mostrar"])){
-                        $_SESSION["resultado"] .= "cosh(((" . $_SESSION["p"] . " * pi()) / 180))";
+                        $_SESSION["resultado"] .= "acos(((" . $_SESSION["p"] . " * pi()) / 180))";
                         $_SESSION["mostrar"] .= "acos(" . $_SESSION['p'] . ")";
                     }
                 }else{
@@ -628,8 +628,8 @@
             if(isset($_SESSION["p"])){
                 if($_SESSION["p"] > -1){
                     if(isset($_SESSION["resultado"]) & isset($_SESSION["mostrar"])){
-                        $_SESSION["resultado"] .= "tanh(((" . $_SESSION["p"] . " * pi()) / 180))";
-                        $_SESSION["mostrar"] .= "tan(" . $_SESSION['p'] . ")";
+                        $_SESSION["resultado"] .= "atan(((" . $_SESSION["p"] . " * pi()) / 180))";
+                        $_SESSION["mostrar"] .= "atan(" . $_SESSION['p'] . ")";
                     }
                 }else{
                     if(isset($_SESSION["mostrar"])){

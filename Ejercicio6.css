@@ -1,0 +1,50 @@
+/*0001*/
+body{
+    color:black;
+    background-color:white;
+    line-height: 15px;
+}
+
+/*0001*/
+h1{
+    text-align:center;
+    color:rgb(190, 52, 52);
+    background-color:white;
+}
+
+/*0001*/
+div{
+    display: grid;
+    grid-template-columns: 5em 5em 5em 5em 5em;
+    margin: 0.7em;
+}
+
+/*100*/
+#resultado{
+    margin-left: 1.6em;
+    width: 29em;
+    height: 3em;
+}
+
+/*100*/
+#label{
+    position: absolute;
+    visibility: hidden;
+    margin: 1em;
+}
+
+/*0011*/
+input[type="submit"]{
+    width: 5em;
+    height: 2em;
+}
+
+menu {
+    display: block;
+    list-style-type: disc;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 40px;
+  }
