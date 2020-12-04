@@ -1,7 +1,7 @@
 /*0001*/
 body {
     line-height: 1.8;
-    color: #818181;
+    color: rgb(0, 0, 0);
     background-color: white;
 }
 
@@ -17,7 +17,7 @@ h1 {
 
 /*0001*/
 h2{
-    color:rgb(119, 205, 255);
+    color:rgb(167, 27, 148);
     background-color: white;
 }
 

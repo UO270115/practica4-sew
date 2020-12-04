@@ -23,7 +23,7 @@
                 $noticia .= "<img src='" . $articles[$i]["image"] . "' alt='Foto representativa de la noticia' />";
                 $noticia .= "<p>Fuente de información: " . $articles[$i]["source"]["name"] . "</p>";
                 $noticia .= "<p>Fecha de la punlicación: " . $articles[$i]["publishedAt"] . "</p>";
-                $noticia .= "<a href='" . $articles[$i]["url"] . "'>Ver la noticia completa</a>";
+                $noticia .= "<a href='" . $articles[$i]["url"] . "'>Ver la noticia" . strval($i+1) . " completa</a>";
                 $noticia .= "</article>";
 
                 if(isset($_SESSION["mostrar"])){
