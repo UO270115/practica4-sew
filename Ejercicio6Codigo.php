@@ -46,28 +46,17 @@
             $db = new mysqli($this->servername, $this->username, $this->password);
              
             if($db->connect_error) {
-                exit ("<p>ERROR de conexión:".$db->connect_error."</p>");  
+                exit ("<p>ERROR de conexión:" . $db->connect_error . "</p>");  
             }
         
             $cadenaSQL = "CREATE DATABASE IF NOT EXISTS sewBD COLLATE utf8_spanish_ci";
+
             if($db->query($cadenaSQL) !== TRUE){
                 exit ("<p>ERROR en la creación de la Base de Datos 'sewBD'. Error: " . $db->error . "</p>");  
-            }  
-
-            // if(isset($_SESSION["crearDB"])){
-            //     $_SESSION["crearDB"] = "se ha entrado en el método crear base de datos";
-            // }else{
-            //     $_SESSION["crearDB"] = "se ha entrado en el método crear base de datos";
-            // }
+            }
 
             $db->close();    
         }
-        
-        // public function aux(){
-        //     if(isset($_SESSION["crearBD"])){
-        //         return $_SESSION["crearBD"];
-        //     }
-        // }
 
         public function crearTabla(){
             $db = new mysqli($this->servername,$this->username,$this->password,$this->database);
@@ -113,8 +102,6 @@
             if(!$consultaPre->bind_param('ssssiississss', 
                 $_POST["dni"], $_POST["nombre"], $_POST["apellidos"], $_POST["email"], $_POST["telefono"],$_POST["edad"], $_POST["sexo"], 
                 $_POST["pericia"], $_POST["tiempo"], $_POST["tareaCorrecta"], $_POST["problemas"], $_POST["mejoras"], $_POST["valoracion"])){
-
-            } else {
                 print_r($db->error);
             }
 
@@ -225,16 +212,17 @@
             $db->close();     
         }
 
-        public function generarInforme(){ // !
+        public function generarInforme(){
             $edadMedia = $this->getEdadMedia();
             $frecuenciaSexo = $this->getFrecuenciaSexo();
-            list($mujeres, $hombres, $otros) = $info;
+            list($mujeres, $hombres, $otros) = $frecuenciaSexo;
             $periciaMedia = $this->getMediaPericiaInformatica();
             $tiempoMedio = $this->getTiempoMedio();
             $porcentageCorrecto = $this->getPercentageTareaCorrecta();
             $puntuacionMedia = $this->getPuntuacionMedia();
 
-            $mostrar = "<p> Edad media de los usuarios = " . $edadMedia  . "<p>";
+            $mostrar = "<p>Resultados informe:</p>";
+            $mostrar .= "<p> Edad media de los usuarios = " . $edadMedia  . "<p>";
             $mostrar .= "<p> Frecuencia del % de cada tipode sexo entre los usuarios -> mujeres = " . $mujeres . "% hombres = " .
                 $hombres . "% otros = " . $otros . "% <p>";
             $mostrar .= "<p> Valor medio de la pericia informática de los usuarios = " . $periciaMedia . "<p>";
@@ -243,7 +231,7 @@
                 $porcentageCorrecto[1]  . "% <p>";
             $mostrar .= "<p> Valor medio de la puntuación de los usuarios sobre la aplicación = " . $puntuacionMedia . "<p>";
 
-            if($_SESSION["informe"]){
+            if(isset($_SESSION["informe"])){
                 $_SESSION["informe"] = $mostrar;
             }else{
                 $_SESSION["informe"] = $mostrar;
@@ -258,6 +246,9 @@
             }  
             
             $resultado =  $db->query("SELECT edad FROM PruebasUsabilidad");
+            if(!$resultado){
+                print_r($db->error);
+            }
 
             $edad = 0;
             if ($resultado->num_rows > 0) {
@@ -285,9 +276,9 @@
             $otros = 0;
             if ($resultado->num_rows > 0) {
                 while($row = $resultado->fetch_assoc()) {
-                    if($row["edad"] == "mujer"){
+                    if($row["sexo"] == "mujer"){
                         $mujeres += 1; 
-                    }else if($row["edad"] == "hombre"){
+                    }else if($row["sexo"] == "hombre"){
                         $hombres += 1; 
                     }else{
                         $otros += 1;
@@ -309,7 +300,7 @@
                 exit ("<h2>ERROR de conexión:".$db->connect_error."</h2>");  
             }  
             
-            $resultado =  $db->query("SELECT periciaInformativa FROM PruebasUsabilidad");
+            $resultado =  $db->query("SELECT periciaInformatica FROM PruebasUsabilidad");
 
             $pericia = 0;
             if ($resultado->num_rows > 0) {
@@ -414,19 +405,18 @@
                 // create a file pointer
                 //$f = fopen("php://output", 'w'); // me incluye el contenido deseado junto con el contenido del Ejercicio6.php
                 //$f = fopen('C:/Users/Andrea/Downloads/pruebasUsabilidad.csv', 'w');
-                $f = fopen($filename, 'w');
+                $f = fopen($filename, "w"); // wb?
+                //$filename = "\xEF\xBB\xBF" . $filename;
                 
-                $fields = array('DNI', 'Nombre', 'Apellidos', 'E-mail', 'Teléfono', 'Edad', "Sexo", "Pericia informática", 
-                    "Tiempo transcurrido para realizar la tarea", "Tarea realizada correctamente", "Problemas encontrados", 
-                    "Propuestas de mejora", "Valoración");
+                $fields = array('DNI', 'Nombre', 'Apellidos', 'E-mail', 'Teléfono', 'Edad', "Sexo", 'Pericia informática', 
+                    'Tiempo transcurrido para realizar la tarea', 'Tarea realizada correctamente', 'Problemas encontrados', 
+                    'Propuestas de mejora', 'Valoración');
                 fputcsv($f, $fields, $delimiter);
-                //print_r($fields);
                 
                 while($row = $resultado->fetch_assoc()){
                     $lineData = array($row['dni'], $row['nombre'], $row['apellidos'], $row['email'], $row['telefono'], $row["edad"], 
                         $row["sexo"], $row["periciaInformatica"], $row["tiempoRealizarTarea"], $row["tareaCorrecta"], 
                         $row["problemasEncontrados"], $row["propuestasMejoras"], $row["valoracion"]);
-                    //print_r($lineData);
                     fputcsv($f, $lineData, $delimiter);
                 }
                 
@@ -441,14 +431,14 @@
             }
         }
 
-        public function cargarArchivo(){ // !
+        public function cargarArchivo(){
             if($_FILES){
                 $filename = $_FILES["archivo"]["name"];
                 $info = new SplFileInfo($filename);
                 $extension = pathinfo($info->getFilename(), PATHINFO_EXTENSION);
 
                 if($extension == "csv"){
-                    $handle = fopen($filename, "r");
+                    $handle = fopen($filename, "r"); // rb?
 
                     $db = new mysqli($this->servername,$this->username,$this->password,$this->database);
 
@@ -456,25 +446,26 @@
                         exit ("<h2>ERROR de conexión:".$db->connect_error."</h2>");  
                     }  
 
-                    $counter = 0;
                     while(($row = fgetcsv($handle, 1000, ";")) !== FALSE){
-                        if($counter > 0){ // row zero contains the name of the columns
-                            $consultaPre = $db->prepare("INSERT INTO PruebasUsabilidad 
-                                (dni, nombre, apellidos, email, telefono, edad, sexo, periciaInformatica, tiempoRealizarTarea, tareaCorrecta, 
-                                problemasEncontrados, propuestasMejoras, valoracion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");   
-                        
-                            // $consultaPre->bind_param('ssssiississss', 
-                            //     $row["dni"], $row['nombre'], $row['apellidos'], $row['email'], $row['telefono'], $row["edad"], $row["sexo"],
-                            //     $row["periciaInformatica"], $row["tiempoRealizarTarea"], $row["tareaCorrecta"], $row["problemasEncontrados"],
-                            //     $row["propuestasMejoras"], $row["valoracion"]);    
+                        $consultaPre = $db->prepare("INSERT INTO PruebasUsabilidad 
+                            (dni, nombre, apellidos, email, telefono, edad, sexo, periciaInformatica, tiempoRealizarTarea, tareaCorrecta, 
+                            problemasEncontrados, propuestasMejoras, valoracion) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");   
 
-                            $consultaPre->bind_param('ssssiississss', 
-                                $row[0], $row[1], $row[2], $row[3], $row[4], $row[4], $row[5], $row[6], $row[7], $row[8], $row[9], $row[10], $row[11]);   
+                        if(!$consultaPre){
+                            print_r($db->error);
+                        }  
 
-                            $consultaPre->execute();
-                            $consultaPre->close();
+                        if(!($consultaPre->bind_param('ssssiississss', 
+                            $row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6], $row[7], $row[8], $row[9], $row[10], $row[11],
+                            $row[12]))){
+                            print_r($db->error);
                         }
-                        $counter += 1;
+
+                        if(!$consultaPre->execute()){
+                            print_r($db->error);
+                        }
+
+                        $consultaPre->close();
                     }
 
                     $db->close();

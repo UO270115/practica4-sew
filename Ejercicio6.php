@@ -13,72 +13,59 @@
             include_once("Ejercicio6Codigo.php");
             $baseDatos = new BaseDatos();
             $baseDatos->init();
-
-        //     $list = array (
-        //         array('aaa', 'bbb', 'ccc', 'dddd'),
-        //         array('123', '456', '789'),
-        //         array('"aaa"', '"bbb"')
-        //  );
-         
-        //  $fp = fopen('file.csv', 'w');
-         
-        //  foreach ($list as $fields) {
-        //         fputcsv($fp, $fields);
-        //  }
-         
-        //  fclose($fp);
         ?>
     </div>
 
-    <form action="#" method="post">
+    <form action="#" method="post" enctype="multipart/form-data">
         <input type="submit" class="button" name="botonBD" value="Crear Base de Datos" />
 
         <div><input type="submit" class="button" name="botonTabla" value="Crear una tabla" /></div>
 
-        <p>DNI (XXXXXXXX-X): <input type="text" name="dni" /> </p>
-        <p>Nombre: <input type="text" name="nombre" /></p>
-        <p>Apellidos: <input type="text" name="apellidos" /></p>
-        <p>E-mail (@): <input type="text" name="email" /></p>
-        <p>Télefono (9 dígitos): <input type="text" name="telefono" /></p>
-        <p>Edad: <input type="text" name="edad" /></p>
-        <p>Sexo (mujer, hombre, otros): <input type="text" name="sexo" /></p>
-        <p>Pericia informática de la persona calificada (0-10): <input type="text" name="pericia" /></p>
-        <p>Tiempo transcurrito para realizar la tarea (segundos): <input type="text" name="tiempo" /></p>
-        <p>Tarea realizada correctamente (sí o no): <input type="text" name="tareaCorrecta" /></p>
-        <p>Comentarios sobre problemas encontrados al usar la aplicación: <input type="text" name="problemas" /></p>
-        <p>Propuestas mejoras: <input type="text" name="mejoras" /></p>
-        <p>Valoración por parte del usuario (0-10): <input type="text" name="valoracion" /></p>
+        <div><label class="label" for="dni">DNI (XXXXXXXX-X): </label><input type="text" name="dni" /></div>
+        <div><label class="label"for="nombre">Nombre: </label><input type="text" name="nombre" /></div>
+        <div><label class="label"for="apellidos">Apellidos: </label><input type="text" name="apellidos" /></div>
+        <div><label class="label"for="email">E-mail (@): </label><input type="text" name="email" /></div>
+        <div><label class="label"for="telefono">Télefono (9 dígitos):</label><input type="text" name="telefono" /></div>
+        <div><label class="label"for="edad">Edad: </label><input type="text" name="edad" /></div>
+        <div><label class="label"for="sexo">Sexo (mujer, hombre, otros): </label><input type="text" name="sexo" /></div>
+        <div><label class="label"for="pericia">Pericia informática de la persona calificada (0-10): </label><input type="text" name="pericia" /></div>
+        <div><label class="label"for="tiempo">Tiempo transcurrito para realizar la tarea (segundos): </label><input type="text" name="tiempo" /></div>
+        <div><label class="label"for="tareaCorrecta">Tarea realizada correctamente (sí o no): </label><input type="text" name="tareaCorrecta" /></div>
+        <div><label class="label"for="problemas">Comentarios sobre problemas encontrados al usar la aplicación: </label><input type="text" name="problemas" /></div>
+        <div><label class="label"for="mejoras">Propuestas mejoras: </label><input type="text" name="mejoras" /></div>
+        <div><label class="label"for="valoracion">Valoración por parte del usuario (0-10): </label><input type="text" name="valoracion" /></div>
         <input type="submit" class="button" name="botonInsertar" value="Insertar datos en una tabla" />
 
-        <p>DniFila: <input type="text" name="dniFilaBuscar" /></p>
+        <div><label class="label"for="dniFilaBuscar">DniFila: </label><input type="text" name="dniFilaBuscar" /></div>
         <div id="resultadoBuscar"><?php echo $baseDatos->mostrarBuscar();?></div>
         <input type="submit" class="button" name="botonBuscar" value="Buscar datos en una tabla" />
 
-        <p>DNI (XXXXXXXX-X) para encontrar fila en la tabla: <input type="text" name="dniFilaModificar" /></p>
+        <div><label class="label"for="dniFilaModificar">DNI (XXXXXXXX-X) para encontrar fila en la tabla: </label><input type="text" name="dniFilaModificar" /></div>
         <p>Datos que se van a modificar de la correspondiente fila:</p>
-        <p>Nombre: <input type="text" name="nombreNuevo" /></p>
-        <p>Apellidos: <input type="text" name="apellidosNuevo" /></p>
-        <p>E-mail (@): <input type="text" name="emailNuevo" /></p>
-        <p>Télefono (9 dígitos): <input type="text" name="telefonoNuevo" /></p>
-        <p>Edad: <input type="text" name="edadNuevo" /></p>
-        <p>Sexo (mujer, hombre, otros): <input type="text" name="sexoNuevo" /></p>
-        <p>Pericia informática de la persona calificada (0-10): <input type="text" name="periciaNuevo" /></p>
-        <p>Tiempo transcurrito para realizar la tarea (segundos): <input type="text" name="tiempoNuevo" /></p>
-        <p>Tarea realizada correctamente (sí o no): <input type="text" name="tareaCorrectaNuevo" /></p>
-        <p>Comentarios sobre problemas encontrados al usar la aplicación: <input type="text" name="problemasNuevo" /></p>
-        <p>Propuestas mejoras: <input type="text" name="mejorasNuevo" /></p>
-        <p>Valoración por parte del usuario (0-10): <input type="text" name="valoracionNuevo" /></p>
+        <div><label class="label"for="nombreNuevo">Nombre: </label><input type="text" name="nombreNuevo" /></div>
+        <div><label class="label"for="apellidosNuevo">Apellidos: </label><input type="text" name="apellidosNuevo" /></div>
+        <div><label class="label"for="emailNuevo">E-mail (@): </label><input type="text" name="emailNuevo" /></div>
+        <div><label class="label"for="telefonoNuevo">Télefono (9 dígitos):</label><input type="text" name="telefonoNuevo" /></div>
+        <div><label class="label"for="edadNuevo">Edad: </label><input type="text" name="edadNuevo" /></div>
+        <div><label class="label"for="sexoNuevo">Sexo (mujer, hombre, otros): </label><input type="text" name="sexoNuevo" /></div>
+        <div><label class="label"for="periciaNuevo">Pericia informática de la persona calificada (0-10): </label><input type="text" name="periciaNuevo" /></div>
+        <div><label class="label"for="tiempoNuevo">Tiempo transcurrito para realizar la tarea (segundos): </label><input type="text" name="tiempoNuevo" /></div>
+        <div><label class="label"for="tareaCorrectaNuevo">Tarea realizada correctamente (sí o no): </label><input type="text" name="tareaCorrectaNuevo" /></div>
+        <div><label class="label"for="problemasNuevo">Comentarios sobre problemas encontrados al usar la aplicación: </label><input type="text" name="problemasNuevo" /></div>
+        <div><label class="label"for="mejorasNuevo">Propuestas mejoras: </label><input type="text" name="mejorasNuevo" /></div>
+        <div><label class="label"for="valoracionNuevo">Valoración por parte del usuario (0-10): </label><input type="text" name="valoracionNuevo" /></div>
         <input type="submit" class="button" name="botonModificar" value="Modificar datos en una tabla" />
 
-        <p>DniFila: <input type="text" name="dniFilaEliminar" /></p>
-        <input type="submit" class="button" name="botonEliminar" value="Eliminar datos (fila) de una tabla" />
-
         <div>
-            <input type="submit" class="button" name="botonInforme" value="Generar informe" />
-            <div id="resultadoInforme"><?php echo $baseDatos->mostrarInforme();?></div>
+            <div><label class="label"for="dniFilaEliminar">DniFila: </label><input type="text" name="dniFilaEliminar" /></div>
+            <input type="submit" class="button" name="botonEliminar" value="Eliminar datos (fila) de una tabla" />
         </div>
 
-        <p>Cargar datos a una tabla de la Base de Datos desde un archivo a seleccionar</p> 
+        <div id="resultadoInforme"><?php echo $baseDatos->mostrarInforme();?></div>
+            <input type="submit" class="button" name="botonInforme" value="Generar informe" />
+        </div>
+
+        <div><label class="label"for="archivo">Cargar datos a una tabla de la Base de Datos desde un archivo a seleccionar</label></div>
         <input type="file" name="archivo" /> 
         <input type="submit" class="button" name="botonCargar" value="Cargar" />
 

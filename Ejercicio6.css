@@ -12,6 +12,11 @@ h1{
     background-color:white;
 }
 
+/*0001*/
+div{
+    padding-bottom: 1em;
+}
+
 /*0011*/
 input[type="submit"]{
     height: 3em;
@@ -20,6 +25,11 @@ input[type="submit"]{
 
 /*0001*/
 p{
+    margin: 1em;
+}
+
+/*0010*/
+.label{
     margin: 1em;
 }
 
