@@ -1,0 +1,55 @@
+/*0001*/
+body{
+    color:black;
+    background-color:white;
+    line-height: 15px;
+}
+
+/*0001*/
+h1{
+    text-align:center;
+    color:rgb(145, 37, 37);
+    background-color:white;
+}
+
+/*0001*/
+h2{
+    color:rgb(202, 55, 55);
+    background-color:white;
+    margin: 0.7em;
+}
+
+/*0001*/
+div{
+    padding-bottom: 1em;
+}
+
+/*0010*/
+.label{
+    margin: 1em;
+}
+
+/*0011*/
+input[type="text"]{
+    margin-right: 1em;
+}
+
+/*0011*/
+input[type="submit"]{
+    height: 3em;
+    margin: 1em;
+    color: white;
+    background-color:rgb(202, 55, 55);
+}
+
+/*0001*/
+p{
+    margin: 1em;
+}
+
+/*0011*/
+/*
+input[type="file"]{
+    height: 3em;
+    margin: 1em;
+}*/

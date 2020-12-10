@@ -1,0 +1,11 @@
+Datos del cliente: 
+- Dni: 58435649D
+- Nombre: Andrea
+- Apellidos: García Cernuda
+- Email: uo270115@uniovi.es
+- Telefono: 681087632
+Datos de la reserva: 
+- Identificador: 7
+- Fecha de entrada: 2020-12-11
+- Fecha de salida: 2020-12-12
+- Número de habitación: 1

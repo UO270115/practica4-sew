@@ -22,7 +22,7 @@
 
         <div><input type="submit" class="button" name="botonTabla" value="Crear una tabla" /></div>
 
-        <div><label class="label" for="dni">DNI (XXXXXXXX-X): </label><input type="text" id="dni" name="dni" /></div>
+        <div><label class="label" for="dni">DNI (NNNNNNNNL ; por ejemplo 123456789A): </label><input type="text" id="dni" name="dni" /></div>
         <div><label class="label" for="nombre">Nombre: </label><input type="text" id="nombre" name="nombre" /></div>
         <div><label class="label" for="apellidos">Apellidos: </label><input type="text" id="apellidos" name="apellidos" /></div>
         <div><label class="label" for="email">E-mail (@): </label><input type="text" id="email" name="email" /></div>
@@ -46,7 +46,7 @@
         <div id="resultadoBuscar"><?php echo $baseDatos->mostrarBuscar();?></div>
         <input type="submit" class="button" name="botonBuscar" value="Buscar datos en una tabla" />
 
-        <div><label class="label" for="dniFilaModificar">DNI (XXXXXXXX-X) para encontrar fila en la tabla: </label>
+        <div><label class="label" for="dniFilaModificar">DNI (NNNNNNNNL ; por ejemplo 123456789A) para encontrar fila en la tabla: </label>
             <input type="text" id="dniFilaModificar" name="dniFilaModificar" /></div>
         <p>Datos que se van a modificar de la correspondiente fila:</p>
         <div><label class="label" for="nombreNuevo">Nombre: </label><input type="text" id="nombreNuevo" name="nombreNuevo" /></div>

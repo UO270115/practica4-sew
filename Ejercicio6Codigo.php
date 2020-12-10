@@ -90,6 +90,46 @@
             if($db->connect_error) {
                 exit ("<h2>ERROR de conexión:".$db->connect_error."</h2>");  
             }
+
+            $range = array('0','1','2','3','4','5','6','7','8','9','10');
+
+            if(strlen($_POST["dni"]) != 9){
+                echo "<p>El dni tiene que estar formado por 8 dígitos y una letra al final</p>";
+                return;
+            }else if(strlen($_POST["nombre"]) <= 0){
+                echo "<p>El campo del nombre tiene que estar completado</p>";
+                return;
+            }else if(strlen($_POST["apellidos"]) <= 0){
+                echo "<p>El campo de apellidos tiene que estar completado</p>";
+                return;
+            }else if(strpos($_POST["email"], "@") === False){
+                echo "</p>El campo del email tiene que contener @</p>";
+                return;
+            }else if(intval($_POST["edad"]) < 0 || intval($_POST["edad"] > 120)){
+                echo "<p>La edad tiene que estar entre los 0 y 120 años<p>";
+                return;
+            }else if($_POST["sexo"] != "mujer" && $_POST["sexo"] != "hombre" && $_POST["sexo"] != "otros"){
+                echo "<p>El sexo tiene que ser mujer, hombre y otros<p>";
+                return;
+            }else if(!in_array($_POST["pericia"], $range)){
+                echo "<p>La pericia informática tiene que estar entre el rango de 0 a 10<p>";
+                return;
+            }else if(intval($_POST["tiempo"]) < 60){
+                echo "<p>El tiempo para realizar la tarea tiene que ser mayor a un minuto<p>";
+                return;
+            }else if($_POST["tareaCorrecta"] != "sí" && $_POST["tareaCorrecta"] != "no"){
+                echo "<p>Las únicas opciones para el campo de tarea realizada correctamente son: sí o no<p>";
+                return;
+            }else if(strlen($_POST["problemas"]) <= 0){
+                echo "<p>El campo de problemas encontrados no puede estar vacío</p>";
+                return;
+            }else if(strlen($_POST["mejoras"]) <= 0){
+                echo "<p>El campo de las propuestas de mejoras no puede estar vacío</p>";
+                return;
+            }else if(!in_array($_POST["valoracion"], $range)){
+                echo "<p>La valoración tiene que estar entre el rango de 0 a 10</p>";
+                return;
+            }
   
             $consultaPre = $db->prepare("INSERT INTO PruebasUsabilidad
                 (dni, nombre, apellidos, email, telefono, edad, sexo, periciaInformatica, tiempoRealizarTarea, tareaCorrecta, 
@@ -171,6 +211,43 @@
 
             if($db->connect_error) {
                 exit ("<h2>ERROR de conexión:".$db->connect_error."</h2>");  
+            }
+
+            $range = array('0','1','2','3','4','5','6','7','8','9','10');
+
+            if(strlen($_POST["nombreNuevo"]) <= 0){
+                echo "<p>El campo del nombre tiene que estar completado</p>";
+                return;
+            }else if(strlen($_POST["apellidosNuevo"]) <= 0){
+                echo "<p>El campo de apellidos tiene que estar completado</p>";
+                return;
+            }else if(strpos($_POST["emailNuevo"], "@") === False){
+                echo "</p>El campo del email tiene que contener @</p>";
+                return;
+            }else if(intval($_POST["edadNuevo"]) < 0 || intval($_POST["edad"] > 120)){
+                echo "<p>La edad tiene que estar entre los 0 y 120 años<p>";
+                return;
+            }else if($_POST["sexoNuevo"] != "mujer" && $_POST["sexoNuevo"] != "hombre" && $_POST["sexoNuevo"] != "otros"){
+                echo "<p>El sexo tiene que ser mujer, hombre y otros<p>";
+                return;
+            }else if(!in_array($_POST["periciaNuevo"], $range)){
+                echo "<p>La pericia informática tiene que estar entre el rango de 0 a 10<p>";
+                return;
+            }else if(intval($_POST["tiempoNuevo"]) < 60){
+                echo "<p>El tiempo para realizar la tarea tiene que ser mayor a un minuto<p>";
+                return;
+            }else if($_POST["tareaCorrectaNuevo"] != "sí" && $_POST["tareaCorrectaNuevo"] != "no"){
+                echo "<p>Las únicas opciones para el campo de tarea realizada correctamente son: sí o no<p>";
+                return;
+            }else if(strlen($_POST["problemasNuevo"]) <= 0){
+                echo "<p>El campo de problemas encontrados no puede estar vacío</p>";
+                return;
+            }else if(strlen($_POST["mejorasNuevo"]) <= 0){
+                echo "<p>El campo de las propuestas de mejoras no puede estar vacío</p>";
+                return;
+            }else if(!in_array($_POST["valoracionNuevo"], $range)){
+                echo "<p>La valoración tiene que estar entre el rango de 0 a 10</p>";
+                return;
             }
   
             $consultaPre = $db->prepare("UPDATE PruebasUsabilidad SET  nombre = ?, apellidos = ?, email = ?, telefono = ?, edad = ?,
