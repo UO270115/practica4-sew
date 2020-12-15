@@ -16,7 +16,7 @@ h1{
 div{
     display: grid;
     grid-template-columns: 5em 5em 5em 5em 5em;
-    margin: 0.7em;
+    margin: 1.35em;
     column-gap: 1em;
 }
 
