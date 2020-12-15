@@ -109,7 +109,7 @@
                 try {
                     $_SESSION["memoria"] = eval("return $memoria - $mostrar;");
                 }
-                catch(Exception $exc) {
+                catch(Throwable $exc) {
                     $_SESSION["mostrar"] = "Error: " . $exc->getMessage();
                 }
             }else{
@@ -117,7 +117,7 @@
                 try {
                     $_SESSION["memoria"] = eval("return - $mostrar;");
                 }
-                catch(Exception $exc) {
+                catch(Throwable $exc) {
                     $_SESSION["mostrar"] = "Error: " . $exc->getMessage();
                 }
             }
@@ -130,7 +130,7 @@
                 try {
                     $_SESSION["memoria"] = eval("return $memoria + $mostrar;");
                 }
-                catch(Exception $exc) {
+                catch(Throwable $exc) {
                     $_SESSION["mostrar"] = "Error: " . $exc->getMessage();
                 }
             }else{
@@ -206,7 +206,7 @@
                         $_SESSION["mostrar"] = eval("return $result;");
                         $_SESSION["resultado"] = $_SESSION["mostrar"];
                     }
-                    catch(Exception $exc) {
+                    catch(Throwable $exc) {
                         $_SESSION["mostrar"] = "Error: " . $exc->getMessage();
                     }
                 }
