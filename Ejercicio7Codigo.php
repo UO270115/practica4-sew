@@ -336,7 +336,7 @@
                     $resultado->data_seek(0);
                     while($row = $resultado->fetch_assoc()) {
                         $lineData = "Datos del cliente: " . "\n";
-                        $lineData .= "- Dni: " . $row["dni"] . "\n";
+                        $lineData .= "- DNI: " . $row["dni"] . "\n";
                         $lineData .= "- Nombre: " . $row["nombre"] . "\n";
                         $lineData .= "- Apellidos: " . $row["apellidos"] . "\n";
                         $lineData .= "- Email: " . $row["email"] . "\n";
@@ -397,23 +397,19 @@
                 $mostrar = "<p>Datos del cliente: </p>";
                 while($row = $resultado->fetch_assoc()) {
                     if($counter == 0){
-                        $mostrar .= "<p>- DNI: " . $row["dni"] . "</p>";
-                        $mostrar .= "<p>- Nombre: " . $row["nombre"] . "</p>";
-                        $mostrar .= "<p>- Apellidos: " . $row["apellidos"] . "</p>";
-                        $mostrar .= "<p>- Email: " . $row["email"] . "</p>";
-                        $mostrar .= "<p>- Telefono: " . $row["telefono"] . "</p>";
-                        $mostrar .= "<p>Datos de la reserva: " . "</p>";
-                        $mostrar .= "<p>- Identificador: " . $row["idReserva"] . "</p>";
-                        $mostrar .= "<p>- Fecha de entrada: " . $row["fechaEntrada"] . "</p>";
-                        $mostrar .= "<p>- Fecha de salida: " . $row["fechaSalida"] . "</p>";
-                        $mostrar .= "<p>- Número de habitación: " . $row["nHabitacion"] . "</p>";
-                    }else{
-                        $mostrar .= "<p>Datos de la reserva: " . "</p>";
-                        $mostrar .= "<p>- Identificador: " . $row["idReserva"] . "</p>";
-                        $mostrar .= "<p>- Fecha de entrada: " . $row["fechaEntrada"] . "</p>";
-                        $mostrar .= "<p>- Fecha de salida: " . $row["fechaSalida"] . "</p>";
-                        $mostrar .= "<p>- Número de habitación: " . $row["nHabitacion"] . "</p>";
+                        $mostrar .= "<p>DNI: " . $row["dni"] . "</p>";
+                        $mostrar .= "<p>Nombre: " . $row["nombre"] . "</p>";
+                        $mostrar .= "<p>Apellidos: " . $row["apellidos"] . "</p>";
+                        $mostrar .= "<p>Email: " . $row["email"] . "</p>";
+                        $mostrar .= "<p>Telefono: " . $row["telefono"] . "</p>";
+                        $mostrar .= "<p>Número de habitación: " . $row["nHabitacion"] . "</p>";
                     }
+                    $mostrar .= "<p>Datos de la reserva: " . "</p>";
+                    $mostrar .= "<p>Identificador: " . $row["idReserva"] . "</p>";
+                    $mostrar .= "<p>Fecha de entrada: " . $row["fechaEntrada"] . "</p>";
+                    $mostrar .= "<p>Fecha de salida: " . $row["fechaSalida"] . "</p>";
+                    $mostrar .= "<p>Número de habitación: " . $row["nHabitacion"] . "</p>";
+
                     $counter += 1;
                 }  
                 if(isset($_SESSION["buscar"])){
