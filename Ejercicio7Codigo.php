@@ -34,7 +34,6 @@
 
         public function crearBD(){
             $db = new mysqli($this->servername, $this->username, $this->password);
-             
             if($db->connect_error) {
                 exit ("<p>ERROR de conexión:" . $db->connect_error . "</p>");  
             }
@@ -42,26 +41,32 @@
             $cadenaSQL = "CREATE DATABASE IF NOT EXISTS sewBDEjer7 COLLATE utf8_spanish_ci";
 
             if($db->query($cadenaSQL) !== TRUE){
-                exit ("<p>ERROR en la creación de la Base de Datos 'sewBD'. Error: " . $db->error . "</p>");  
+                exit ("<p>ERROR en la creación de la Base de Datos 'sewBDEjer7'. Error: " . $db->error . "</p>");  
             }
 
-            $db->close();    
+            if(!$db->close()){
+                exit ("<p>ERROR al cerrar la conexión con la Base de Datos 'sewBDEjer7'. Error: " . $db->error . "</p>"); 
+            }  
         }
 
         public function crearTablas(){
             $db = new mysqli($this->servername,$this->username,$this->password,$this->database);
+            if($db->connect_error){
+                exit ("<p>ERROR de conexión:".$db->connect_error."</p>");  
+            }
 
             $crearTabla = "CREATE TABLE IF NOT EXISTS Cliente (
+                id INT NOT NULL AUTO_INCREMENT,
                 dni VARCHAR(9) NOT NULL,
                 nombre VARCHAR(255) NOT NULL, 
                 apellidos VARCHAR(255) NOT NULL,  
                 email VARCHAR(255) NOT NULL,
                 telefono INT(9) NOT NULL,
-                PRIMARY KEY (dni))";
+                PRIMARY KEY (id))";
                       
             if($db->query($crearTabla) !== TRUE){
                 exit("<p>ERROR en la creación de la tabla Cliente. Error : ". $db->error . "</p>");
-            }   
+            }
 
             $crearTabla = "CREATE TABLE IF NOT EXISTS Habitacion (
                 nHabitacion INT(2) NOT NULL,
@@ -73,25 +78,27 @@
             }  
 
             $crearTabla = "CREATE TABLE IF NOT EXISTS Reserva (
-                id INT NOT NULL AUTO_INCREMENT, 
+                idReserva INT NOT NULL AUTO_INCREMENT, 
                 fechaEntrada DATE NOT NULL,
                 fechaSalida DATE NOT NULL,
-                dniCliente VARCHAR(9) NOT NULL,
+                idCliente INT NOT NULL,
                 nHabitacion INT(2) NOT NULL,
-                FOREIGN KEY (dniCliente) REFERENCES Cliente(dni),
+                FOREIGN KEY (idCliente) REFERENCES Cliente(id),
                 FOREIGN KEY (nHabitacion) REFERENCES Habitacion(nHabitacion),
-                PRIMARY KEY (id))";
+                PRIMARY KEY (idReserva))";
                       
             if($db->query($crearTabla) !== TRUE){
                 exit("<p>ERROR en la creación de la tabla Reserva. Error : ". $db->error . "</p>");
             }
         
-            $db->close();    
+            if(!$db->close()){
+                print_r($db->error);
+            }    
         } 
 
+        // no compruebo si un usuario realiza una reserva en las mismas fechas ya que la reserva podría ser para otra persona
         public function insertarDatos(){
             $db = new mysqli($this->servername,$this->username,$this->password,$this->database);
-
             if($db->connect_error){
                 exit ("<p>ERROR de conexión:".$db->connect_error."</p>");  
             }
@@ -114,16 +121,20 @@
             }
 
             $query1 = $db->query("SELECT MAX(nHabitacion) FROM Reserva");
+            if(!$query1){
+                print_r($db->error);
+            }
 
             $habitacion = -1;
-
             if ($query1->num_rows > 0) {
                 while($row = $query1->fetch_assoc()) {
                     $habitacion = $row["MAX(nHabitacion)"];
                 }
             }
 
-            $query1->close();
+            if(!$query1->close()){
+                print_r($db->error);
+            }
 
             if($habitacion < 49){
                 if($habitacion < 0){
@@ -158,40 +169,85 @@
                 print_r($db->error);
             }
     
-            $consultaPre->close();
+            if(!$consultaPre->close()){
+                print_r($db->error);
+            }
 
-            $consultaPre = $db->prepare("INSERT INTO Reserva (fechaEntrada, fechaSalida, dniCliente, nHabitacion) VALUES (?,?,?,?)");   
+            $query2 = $db->query("SELECT MAX(id) FROM Cliente");
+            if(!$query2){
+                print_r($db->error);
+            }
+
+            $idCliente = -1;
+            if ($query2->num_rows > 0) {
+                while($row = $query2->fetch_assoc()) {
+                    $idCliente = $row["MAX(id)"];
+                }
+            }
+
+            if(!$query2->close()){
+                print_r($db->error);
+            }
+
+            $consultaPre = $db->prepare("INSERT INTO Reserva (fechaEntrada, fechaSalida, idCliente, nHabitacion) VALUES (?,?,?,?)");   
 
             if(!$consultaPre){
                 print_r($db->error);
             }
 
-            if(!($consultaPre->bind_param('sssi', $_POST["fechaEntrada"], $_POST["fechaSalida"], $_POST["dni"], $habitacion))){
+            if(!$consultaPre->bind_param('ssii', $_POST["fechaEntrada"], $_POST["fechaSalida"], $idCliente, $habitacion)){
                 print_r($db->error);
             }
 
+            $correct = true;
             if(!$consultaPre->execute()){
+                $correct = false;
+                print_r($db->error);
+            }else{
+                echo "<p>La reserva ha sido realizada correctamente</p>";
+            }
+
+            if(!$consultaPre->close()){
                 print_r($db->error);
             }
 
-            $consultaPre->close();
+            $query3 = $db->query("SELECT MAX(idReserva) FROM Reserva");
+            if(!$query3){
+                print_r($db->error);
+            }
 
-            $db->close();    
+            if ($query3->num_rows > 0 && $correct) {
+                while($row = $query3->fetch_assoc()) {
+                    echo "<p>El identificador de la reserva realizada es  " . $row["MAX(idReserva)"] . "</p>";
+                }
+            }
+
+            if(!$query3->close()){
+                print_r($db->error);
+            }
+
+            if(!$db->close()){
+                print_r($db->error);
+            }    
         }
 
         public function escogerHabitacion(){
             $db = new mysqli($this->servername,$this->username,$this->password,$this->database);
-
             if($db->connect_error) {
                 exit ("<p>ERROR de conexión:".$db->connect_error."</p>");  
             } 
 
-            $consulta = $db->query("SELECT * FROM Reserva");   
+            $consulta = $db->query("SELECT * FROM Reserva"); 
+            if(!$consultaPre){
+                print_r($db->error);
+            }  
 
             $resultado = $consulta->get_result();
+            if(!$resultado){
+                print_r($db->error);
+            }
 
             $habitacion = -1;
-
             if ($resultado->fetch_assoc()!=NULL) {
                 $resultado->data_seek(0);
                 while($fila = $resultado->fetch_assoc()) {
@@ -205,29 +261,61 @@
                     }
                 }               
             }
-        
-            $consulta->close();
 
-            $db->close();     
+            if(!$consulta->close()){
+                print_r($db->error);
+            }
+
+            if(!$db->close()){
+                print_r($db->error);
+            } 
 
             return $habitacion;
         }
 
         public function generarResguardo(){
             $db = new mysqli($this->servername,$this->username,$this->password,$this->database);
-
             if($db->connect_error) {
                 exit ("<p>ERROR de conexión:".$db->connect_error."</p>");  
             }  
 
-            $consultaPre = $db->prepare("SELECT r.id, c.dni, c.nombre, c.apellidos, c.email, c.telefono, r.fechaEntrada, r.fechaSalida,
-                r.nHabitacion FROM Reserva r INNER JOIN Cliente c ON c.dni=r.dniCliente WHERE c.dni = ?");  
+            // chekear si el id y el dni son correctos: se encuentran en la base de datos y se corresponden entre ellos!!
+            $correct = true;
 
+            $consultaPre = $db->prepare("SELECT count(*) FROM Reserva r INNER JOIN Cliente c ON c.id = r.idCliente WHERE r.idReserva = ? and c.dni = ?");   
             if(!$consultaPre){
                 print_r($db->error);
             }
 
-            if(!$consultaPre->bind_param('s', $_POST["dniReservaExportar"])){
+            if(!$consultaPre->bind_param('is', $_POST["idReservaExportar"], $_POST["dniReservaExportar"])){
+                print_r($db->error);
+            }    
+
+            if(!$consultaPre->execute()){
+                print_r($db->error);
+            }
+
+            $nrows = $consultaPre->get_result()->fetch_row()[0];
+            if ($nrows <= 0) {
+                $correct = false;
+                echo "<p>No se ha encontrado en la base de datos una fila con el identificador y dni proporcionados</p>";
+            }
+
+            if(!$consultaPre->close()){
+                print_r($db->error);
+            }
+
+            if(!$correct){
+                return;
+            }
+
+            $consultaPre = $db->prepare("SELECT r.idReserva, c.dni, c.nombre, c.apellidos, c.email, c.telefono, r.fechaEntrada, r.fechaSalida,
+                r.nHabitacion FROM Reserva r INNER JOIN Cliente c ON c.id = r.idCliente WHERE r.idReserva = ? and c.dni = ?");  
+            if(!$consultaPre){
+                print_r($db->error);
+            }
+
+            if(!$consultaPre->bind_param('is', $_POST["idReservaExportar"], $_POST["dniReservaExportar"])){
                 print_r($db->error);
             }    
 
@@ -236,42 +324,56 @@
             }
 
             $resultado = $consultaPre->get_result();
+            if(!$resultado){
+                print_r($db->error);
+            }
 
             if ($resultado->fetch_assoc()!=NULL) {
                 $filename = "resguardoReserva.txt";
-                
-                $f = fopen($filename, "w"); 
+                try{
+                    $f = fopen($filename, "w"); 
 
-                $resultado->data_seek(0);
-                while($row = $resultado->fetch_assoc()) {
-                    $lineData = "Datos del cliente: " . "\n";
-                    $lineData .= "- Dni: " . $row["dni"] . "\n";
-                    $lineData .= "- Nombre: " . $row["nombre"] . "\n";
-                    $lineData .= "- Apellidos: " . $row["apellidos"] . "\n";
-                    $lineData .= "- Email: " . $row["email"] . "\n";
-                    $lineData .= "- Telefono: " . $row["telefono"] . "\n";
-                    $lineData .= "Datos de la reserva: " . "\n";
-                    $lineData .= "- Identificador: " . $row["id"] . "\n";
-                    $lineData .= "- Fecha de entrada: " . $row["fechaEntrada"] . "\n";
-                    $lineData .= "- Fecha de salida: " . $row["fechaSalida"] . "\n";
-                    $lineData .= "- Número de habitación: " . $row["nHabitacion"] . "\n";
-                    fwrite($f, $lineData);
+                    $resultado->data_seek(0);
+                    while($row = $resultado->fetch_assoc()) {
+                        $lineData = "Datos del cliente: " . "\n";
+                        $lineData .= "- Dni: " . $row["dni"] . "\n";
+                        $lineData .= "- Nombre: " . $row["nombre"] . "\n";
+                        $lineData .= "- Apellidos: " . $row["apellidos"] . "\n";
+                        $lineData .= "- Email: " . $row["email"] . "\n";
+                        $lineData .= "- Telefono: " . $row["telefono"] . "\n";
+                        $lineData .= "Datos de la reserva: " . "\n";
+                        $lineData .= "- Identificador: " . $row["idReserva"] . "\n";
+                        $lineData .= "- Fecha de entrada: " . $row["fechaEntrada"] . "\n";
+                        $lineData .= "- Fecha de salida: " . $row["fechaSalida"] . "\n";
+                        $lineData .= "- Número de habitación: " . $row["nHabitacion"] . "\n";
+                        fwrite($f, $lineData);
+                    }
+
+                    fclose($f);
+
+                    echo "<p>El resguardo de la reserva seleccionada ha sido exportado correctamente</p>";
+                }catch(Throwable $exc){
+                    echo "<p>Error: " . $exc->getMessage() . "</p>";
                 }
+            }
 
-                fclose($f);
+            if(!$resultado->close()){
+                print_r($db->error);
+            }
+
+            if(!$db->close()){
+                print_r($db->error);
             }
         }
 
         public function buscarReserva(){
             $db = new mysqli($this->servername,$this->username,$this->password,$this->database);
-
             if($db->connect_error) {
                 exit ("<p>ERROR de conexión:".$db->connect_error."</p>");  
             } 
 
-            $consultaPre = $db->prepare("SELECT r.id, c.dni, c.nombre, c.apellidos, c.email, c.telefono, r.fechaEntrada, r.fechaSalida,
-                r.nHabitacion FROM Reserva r INNER JOIN Cliente c ON c.dni=r.dniCliente WHERE c.dni = ?");   
-
+            $consultaPre = $db->prepare("SELECT r.idReserva, c.dni, c.nombre, c.apellidos, c.email, c.telefono, r.fechaEntrada, r.fechaSalida,
+                r.nHabitacion FROM Reserva r INNER JOIN Cliente c ON c.id=r.idCliente WHERE c.dni = ?");   
             if(!$consultaPre){
                 print_r($db->error);
             }
@@ -285,33 +387,51 @@
             }
 
             $resultado = $consultaPre->get_result();
+            if(!$resultado){
+                print_r($db->error);
+            }
 
+            $counter = 0;
             if ($resultado->fetch_assoc()!=NULL) {
                 $resultado->data_seek(0);
+                $mostrar = "<p>Datos del cliente: </p>";
                 while($row = $resultado->fetch_assoc()) {
-                    $mostrar = "<p>Datos del cliente: </p>";
-                    $mostrar .= "<p>- DNI: " . $row["dni"] . "</p>";
-                    $mostrar .= "<p>- Nombre: " . $row["nombre"] . "</p>";
-                    $mostrar .= "<p>- Apellidos: " . $row["apellidos"] . "</p>";
-                    $mostrar .= "<p>- Email: " . $row["email"] . "</p>";
-                    $mostrar .= "<p>- Telefono: " . $row["telefono"] . "</p>";
-                    $mostrar .= "<p>Datos de la reserva: " . "</p>";
-                    $mostrar .= "<p>- Identificador: " . $row["id"] . "</p>";
-                    $mostrar .= "<p>- Fecha de entrada: " . $row["fechaEntrada"] . "</p>";
-                    $mostrar .= "<p>- Fecha de salida: " . $row["fechaSalida"] . "</p>";
-                    $mostrar .= "<p>- Número de habitación: " . $row["nHabitacion"] . "</p>";
-                    if(isset($_SESSION["buscar"])){
-                        $_SESSION["buscar"] = $mostrar;
+                    if($counter == 0){
+                        $mostrar .= "<p>- DNI: " . $row["dni"] . "</p>";
+                        $mostrar .= "<p>- Nombre: " . $row["nombre"] . "</p>";
+                        $mostrar .= "<p>- Apellidos: " . $row["apellidos"] . "</p>";
+                        $mostrar .= "<p>- Email: " . $row["email"] . "</p>";
+                        $mostrar .= "<p>- Telefono: " . $row["telefono"] . "</p>";
+                        $mostrar .= "<p>Datos de la reserva: " . "</p>";
+                        $mostrar .= "<p>- Identificador: " . $row["idReserva"] . "</p>";
+                        $mostrar .= "<p>- Fecha de entrada: " . $row["fechaEntrada"] . "</p>";
+                        $mostrar .= "<p>- Fecha de salida: " . $row["fechaSalida"] . "</p>";
+                        $mostrar .= "<p>- Número de habitación: " . $row["nHabitacion"] . "</p>";
                     }else{
-                        $_SESSION["buscar"] = $mostrar;
+                        $mostrar .= "<p>Datos de la reserva: " . "</p>";
+                        $mostrar .= "<p>- Identificador: " . $row["idReserva"] . "</p>";
+                        $mostrar .= "<p>- Fecha de entrada: " . $row["fechaEntrada"] . "</p>";
+                        $mostrar .= "<p>- Fecha de salida: " . $row["fechaSalida"] . "</p>";
+                        $mostrar .= "<p>- Número de habitación: " . $row["nHabitacion"] . "</p>";
                     }
-                }               
+                    $counter += 1;
+                }  
+                if(isset($_SESSION["buscar"])){
+                    $_SESSION["buscar"] = $mostrar;
+                }else{
+                    $_SESSION["buscar"] = $mostrar;
+                }             
             } else {
                 echo "<p>Búsqueda sin resultados</p>";
+            }     
+
+            if(!$consultaPre->close()){
+                print_r($db->error);
             }
-        
-            $consultaPre->close();
-            $db->close();     
+
+            if(!$db->close()){
+                print_r($db->error);
+            }
         }
 
         public function mostrarBuscar(){
@@ -322,18 +442,64 @@
 
         public function eliminarReserva(){
             $db = new mysqli($this->servername,$this->username,$this->password,$this->database);
-
             if($db->connect_error) {
                 exit ("<p>ERROR de conexión:".$db->connect_error."</p>");  
             }
 
-            $consultaPre = $db->prepare("DELETE FROM Reserva WHERE dniCliente = ?");   
+            // chekear si el id y el dni son correctos: se encuentran en la base de datos y se corresponden entre ellos!!
+            $correct = true;
 
+            $consultaPre = $db->prepare("SELECT count(*) FROM Reserva r INNER JOIN Cliente c ON c.id = r.idCliente WHERE r.idReserva = ? and c.dni = ?");   
             if(!$consultaPre){
                 print_r($db->error);
             }
 
-            if(!($consultaPre->bind_param('s', $_POST["dniReservaEliminar"]))){
+            if(!$consultaPre->bind_param('is', $_POST["idReservaEliminar"], $_POST["dniReservaEliminar"])){
+                print_r($db->error);
+            }    
+
+            if(!$consultaPre->execute()){
+                print_r($db->error);
+            }
+
+            $nrows = $consultaPre->get_result()->fetch_row()[0];
+            if ($nrows <= 0) {
+                $correct = false;
+                echo "<p>No se ha encontrado en la base de datos una fila con el identificador y dni proporcionados</p>";
+            }
+
+            if(!$consultaPre->close()){
+                print_r($db->error);
+            }
+
+            if(!$correct){
+                return;
+            }
+
+            $consultaPre = $db->prepare("SELECT r.idCliente FROM Reserva r INNER JOIN Cliente c ON c.id = r.idCliente WHERE r.idReserva = ? and c.dni = ?");   
+            if(!$consultaPre){
+                print_r($db->error);
+            }
+
+            if(!$consultaPre->bind_param('is', $_POST["idReservaEliminar"], $_POST["dniReservaEliminar"])){
+                print_r($db->error);
+            }    
+
+            if(!$consultaPre->execute()){
+                print_r($db->error);
+            }
+
+            $idCliente = $consultaPre->get_result()->fetch_row()[0];
+            if(!$consultaPre->close()){
+                print_r($db->error);
+            }
+
+            $consultaPre = $db->prepare("DELETE FROM Reserva WHERE idReserva = ?");   
+            if(!$consultaPre){
+                print_r($db->error);
+            }
+
+            if(!($consultaPre->bind_param('i', $_POST["idReservaEliminar"]))){
                 print_r($db->error);
             }    
 
@@ -341,26 +507,34 @@
                 print_r($db->error);
             }
         
-            $consultaPre->close();
+            if(!$consultaPre->close()){
+                print_r($db->error);
+            }
 
-            // por si vuelve a reservar el mismo cliente que no haya PRIMARY KEYS duplicadas
-            $consultaPre = $db->prepare("DELETE FROM Cliente WHERE dni = ?");   
+            // por si vuelve a reservar el mismo cliente, que no haya PRIMARY KEYS duplicadas
+            $consultaPre = $db->prepare("DELETE FROM Cliente WHERE id = ?");   
 
             if(!$consultaPre){
                 print_r($db->error);
             }
 
-            if(!$consultaPre->bind_param('s', $_POST["dniReservaEliminar"])){
+            if(!$consultaPre->bind_param('i', $idCliente)){
                 print_r($db->error);
             }    
 
             if(!$consultaPre->execute()){
                 print_r($db->error);
+            }else{
+                echo "<p>La reserva seleccionada se ha eliminado correctamente</p>";
             }
 
-            $consultaPre->close();
+            if(!$consultaPre->close()){
+                print_r($db->error);
+            }
 
-            $db->close();     
+            if(!$db->close()){
+                print_r($db->error);
+            }    
         }
 
         // public function cargarArchivo(){
@@ -370,31 +544,42 @@
         //         $extension = pathinfo($info->getFilename(), PATHINFO_EXTENSION);
 
         //         if($extension == "csv"){
-        //             $handle = fopen($filename, "r");
+        //             try{
+        //                 $handle = fopen($filename, "r");
 
-        //             $db = new mysqli($this->servername,$this->username,$this->password,$this->database);
+        //                 $db = new mysqli($this->servername,$this->username,$this->password,$this->database);
+        //                 if($db->connect_error) {
+        //                     exit ("<p>ERROR de conexión:".$db->connect_error."</p>");  
+        //                 }
 
-        //             while(($row = fgetcsv($handle, 1000, ";")) !== FALSE){
-        //                 $consultaPre = $db->prepare("INSERT INTO Habitacion
-        //                     (nHabitacion, planta) VALUES (?,?)");   
+        //                 while(($row = fgetcsv($handle, 1000, ";")) !== FALSE){
+        //                     $consultaPre = $db->prepare("INSERT INTO Habitacion (nHabitacion, planta) VALUES (?,?)");   
+        //                     if(!$consultaPre){
+        //                         print_r($db->error);
+        //                     }  
 
-        //                 if(!$consultaPre){
+        //                     if(!($consultaPre->bind_param('is', 
+        //                         $row[0], $row[1]))){
+        //                         print_r($db->error);
+        //                     }
+
+        //                     if(!$consultaPre->execute()){
+        //                         print_r($db->error);
+        //                     }
+
+        //                     if(!$consultaPre->close()){
+        //                         print_r($db->error);
+        //                     }
+        //                 }
+
+        //                 if(!$db->close()){
         //                     print_r($db->error);
         //                 }  
 
-        //                 if(!($consultaPre->bind_param('is', 
-        //                     $row[0], $row[1]))){
-        //                     print_r($db->error);
-        //                 }
-
-        //                 if(!$consultaPre->execute()){
-        //                     print_r($db->error);
-        //                 }
-
-        //                 $consultaPre->close();
+        //                 fclose($handle);
+        //             }catch(Throwable $exc){
+        //                 echo "<p>Error: " . $exc->getMessage() . "</p>";
         //             }
-
-        //             $db->close();
         //         }
         //     }    
         // }

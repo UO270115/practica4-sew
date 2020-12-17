@@ -20,7 +20,7 @@
     <form action="#" method="post" enctype="multipart/form-data">
         <section>
             <h2>Realizar una reserva</h2>
-            <div><label class="label" for="dni">DNI (NNNNNNNNL): </label><input type="text" id="dni" name="dni" /> Por ejemplo, 123456789A</div>
+            <div><label class="label" for="dni">DNI (NNNNNNNNL): </label><input type="text" id="dni" name="dni" /> Por ejemplo, 12345678A</div>
             <div><label class="label" for="nombre">Nombre: </label><input type="text" id="nombre" name="nombre" /></div>
             <div><label class="label" for="apellidos">Apellidos: </label><input type="text" id="apellidos" name="apellidos" /></div>
             <div><label class="label" for="email">E-mail (@): </label><input type="text" id="email" name="email" /></div>
@@ -32,6 +32,9 @@
 
         <section>
             <h2>Obtener resguardo de la reserva realizada</h2>
+            <div><label class="label" for="idReservaExportar">Identificador de la reserva: </label>
+                <input type="text" id="idReservaExportar" name="idReservaExportar" />
+            </div>
             <div><label class="label" for="dniReservaExportar">DNI introducido en la reserva: </label>
                 <input type="text" id="dniReservaExportar" name="dniReservaExportar" />
             </div>
@@ -49,13 +52,16 @@
 
         <section>
             <h2>Cancelación de una reserva</h2>
+            <div><label class="label" for="idReservaEliminar">Identificador de la reserva a eliminar: </label>
+                <input type="text" id="idReservaEliminar" name="idReservaEliminar" />
+            </div>
             <div><label class="label" for="dniReservaEliminar">DNI introducido en la reserva: </label>
                 <input type="text" id="dniReservaEliminar" name="dniReservaEliminar" />
             </div>
             <input type="submit" class="button" name="botonEliminar" value="Cancelar reserva" />
         </section>
 
-        <!-- Para introducir en la base de datos el archivo habitaciones.csv
+        <!-- Para introducir en la base de datos el archivo habitaciones.csv   
         <div><label class="label" for="archivo">Cargar datos a una tabla de la Base de Datos desde un archivo a seleccionar</label></div>
         <input type="file" id="archivo" name="archivo" /> 
         <input type="submit" class="button" name="botonCargar" value="Cargar" /> -->
