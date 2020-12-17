@@ -420,7 +420,9 @@
                     $_SESSION["buscar"] = $mostrar;
                 }else{
                     $_SESSION["buscar"] = $mostrar;
-                }             
+                }   
+                
+                echo "<p>La búsqueda se ha realizado con éxito, los resultados se pueden ver en el apartado Búsqueda</p>";
             } else {
                 echo "<p>Búsqueda sin resultados</p>";
             }     

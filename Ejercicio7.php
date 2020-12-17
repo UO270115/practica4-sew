@@ -46,7 +46,7 @@
             <div><label class="label" for="dniReservaBuscar">DNI introducido en la reserva: </label>
                 <input type="text" id="dniReservaBuscar" name="dniReservaBuscar" />
             </div>
-            <div id="resultadoBuscar"><?php echo $baseDatos->mostrarBuscar();?></div>
+            <?php echo $baseDatos->mostrarBuscar();?>
             <input type="submit" class="button" name="botonBuscar" value="Buscar un reserva" />
         </section>
 
@@ -64,7 +64,7 @@
         <!-- Para introducir en la base de datos el archivo habitaciones.csv   
         <div><label class="label" for="archivo">Cargar datos a una tabla de la Base de Datos desde un archivo a seleccionar</label></div>
         <input type="file" id="archivo" name="archivo" /> 
-        <input type="submit" class="button" name="botonCargar" value="Cargar" /> -->
+        <input type="submit" class="button" name="botonCargar" value="Cargar" />  -->
     </form> 
 
     <footer>
