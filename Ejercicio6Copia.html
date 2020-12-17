@@ -13,17 +13,9 @@
                 </div>
     
         <form action="#" method="post" enctype="multipart/form-data">
-            <section>
-                <h2>Creación de la base de datos</h2>
-                <p></p>
-                <input type="submit" class="button" name="botonBD" value="Crear bd">
-            </section>
-           
-            <section>
-                <h2>Creación de la tabla PruebasUsabilidad</h2>
-                <p></p>
-                <input type="submit" class="button" name="botonTabla" value="Crear tabla">
-            </section>
+            <input type="submit" class="button" name="botonBD" value="Crear base de datos">
+
+            <div><input type="submit" class="button" name="botonTabla" value="Crear tabla"></div>
     
             <section>
                 <h2>Inserción datos</h2>
@@ -55,7 +47,6 @@
     
             <section>
                 <h2>Búsqueda de datos</h2>
-                <p></p>
                 <div><label class="label" for="dniFilaBuscar">DniFila: </label><input type="text" id="dniFilaBuscar" name="dniFilaBuscar"></div>
                 <div id="resultadoBuscar"></div>
                 <input type="submit" class="button" name="botonBuscar" value="Buscar">
@@ -104,12 +95,8 @@
                 <input type="submit" class="button" name="botonEliminar" value="Eliminar">
             </section>
     
-            <section>
-                <h2>Obtención del informe</h2>
-                <p></p>
-                <div id="resultadoInforme"></div>
-                <input type="submit" class="button" name="botonInforme" value="Generar informe">
-            </section>
+            <div id="resultadoInforme"></div>
+            <input type="submit" class="button" name="botonInforme" value="Generar informe">
     
             <section>
                 <h2>Carga de datos a la base de datos</h2>
